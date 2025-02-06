@@ -2,7 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
 import styles from './ArticleParamsForm.module.scss';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	fontFamilyOptions,
 	fontSizeOptions,
@@ -10,27 +10,50 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	ArticleStateType,
+	defaultArticleState,
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 
 interface ArticleParamsFormProps {
 	onSubmit: (FormData: ArticleStateType) => void;
+	onReset: () => void;
 }
 
-export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
+export const ArticleParamsForm = ({
+	onSubmit,
+	onReset,
+}: ArticleParamsFormProps) => {
+	const wrapperRef = useRef<HTMLElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const containerClass = isOpen ? styles.container_open : '';
-
-	const [selectedFont, setSelectedFont] = useState(fontFamilyOptions[0]);
-	const [selectedFontSize, setSelectedFontSize] = useState(fontSizeOptions[0]);
-	const [selectedFontColor, setSelectedFontColor] = useState(fontColors[0]);
+	const [selectedFont, setSelectedFont] = useState(
+		defaultArticleState.fontFamilyOption
+	);
+	const [selectedFontSize, setSelectedFontSize] = useState(
+		defaultArticleState.fontSizeOption
+	);
+	const [selectedFontColor, setSelectedFontColor] = useState(
+		defaultArticleState.fontColor
+	);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-		backgroundColors[0]
+		defaultArticleState.backgroundColor
 	);
 	const [selectedContentWidth, setSelectedContentWidth] = useState(
-		contentWidthArr[0]
+		defaultArticleState.contentWidth
 	);
+	const selectedReset = () => {
+		setSelectedFont(defaultArticleState.fontFamilyOption);
+		setSelectedFontSize(defaultArticleState.fontSizeOption);
+		setSelectedFontColor(defaultArticleState.fontColor);
+		setSelectedBackgroundColor(defaultArticleState.backgroundColor);
+		setSelectedContentWidth(defaultArticleState.contentWidth);
+	};
+
+	const handleFormReset = () => {
+		selectedReset();
+		onReset();
+	};
 
 	const handleFormSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -43,6 +66,27 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 		});
 	};
 
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				wrapperRef.current &&
+				!wrapperRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen]);
+
 	return (
 		<>
 			<ArrowButton
@@ -51,7 +95,9 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 					setIsOpen(!isOpen);
 				}}
 			/>
-			<aside className={styles.container + ' ' + containerClass}>
+			<aside
+				className={styles.container + ' ' + containerClass}
+				ref={wrapperRef}>
 				<form className={styles.form} onSubmit={handleFormSubmit}>
 					<Select
 						options={fontFamilyOptions}
@@ -90,7 +136,7 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 							title='Сбросить'
 							htmlType='reset'
 							type='clear'
-							onClick={() => alert('клик на кнопку сбросить')}
+							onClick={handleFormReset}
 						/>
 						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>

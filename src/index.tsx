@@ -22,6 +22,9 @@ const App = () => {
 		setFormData(data);
 		console.log(data);
 	};
+	const handleFormReset = () => {
+		setFormData(defaultArticleState);
+	};
 
 	return (
 		<main
@@ -35,7 +38,10 @@ const App = () => {
 					'--bg-color': formData.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm onSubmit={handleFormSubmit} />
+			<ArticleParamsForm
+				onSubmit={handleFormSubmit}
+				onReset={handleFormReset}
+			/>
 			<Article />
 		</main>
 	);

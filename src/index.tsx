@@ -20,7 +20,6 @@ const App = () => {
 		useState<ArticleStateType>(defaultArticleState);
 	const handleFormSubmit = (data: ArticleStateType) => {
 		setFormData(data);
-		console.log(data);
 	};
 	const handleFormReset = () => {
 		setFormData(defaultArticleState);

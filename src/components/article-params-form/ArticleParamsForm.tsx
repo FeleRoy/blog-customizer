@@ -1,6 +1,7 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
+import { Text } from 'src/ui/text';
 import clsx from 'clsx';
 import styles from './ArticleParamsForm.module.scss';
 import { useRef, useState } from 'react';
@@ -90,7 +91,14 @@ export const ArticleParamsForm = ({
 					className={styles.form}
 					onSubmit={handleFormSubmit}
 					onReset={handleFormReset}>
-					<h2 className={styles.form_title}>задайте параметры</h2>
+					<Text
+						size={31}
+						weight={800}
+						uppercase
+						align='left'
+						family='open-sans'>
+						задайте параметры
+					</Text>
 					<Select
 						options={fontFamilyOptions}
 						selected={selectedFont}

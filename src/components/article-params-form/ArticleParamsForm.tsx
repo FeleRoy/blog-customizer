@@ -99,6 +99,7 @@ export const ArticleParamsForm = ({
 				className={styles.container + ' ' + containerClass}
 				ref={wrapperRef}>
 				<form className={styles.form} onSubmit={handleFormSubmit}>
+					<h2 className={styles.form_title}>задайте параметры</h2>
 					<Select
 						options={fontFamilyOptions}
 						selected={selectedFont}

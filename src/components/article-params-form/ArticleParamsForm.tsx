@@ -17,30 +17,30 @@ import {
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 interface ArticleParamsFormProps {
-	articleformState: ArticleStateType;
+	articleFormState: ArticleStateType;
 	onChange: (newValue: ArticleStateType) => void;
 }
 
 export const ArticleParamsForm = ({
-	articleformState,
+	articleFormState,
 	onChange,
 }: ArticleParamsFormProps) => {
 	const wrapperRef = useRef<HTMLElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedFont, setSelectedFont] = useState(
-		articleformState.fontFamilyOption
+		articleFormState.fontFamilyOption
 	);
 	const [selectedFontSize, setSelectedFontSize] = useState(
-		articleformState.fontSizeOption
+		articleFormState.fontSizeOption
 	);
 	const [selectedFontColor, setSelectedFontColor] = useState(
-		articleformState.fontColor
+		articleFormState.fontColor
 	);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-		articleformState.backgroundColor
+		articleFormState.backgroundColor
 	);
 	const [selectedContentWidth, setSelectedContentWidth] = useState(
-		articleformState.contentWidth
+		articleFormState.contentWidth
 	);
 
 	const handleFormReset = () => {

@@ -24,7 +24,7 @@ export const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				articleformState={articleState}
+				articleFormState={articleState}
 				onChange={setArticleState}
 			/>
 			<Article />

@@ -27,7 +27,6 @@ export const ArticleParamsForm = ({
 }: ArticleParamsFormProps) => {
 	const wrapperRef = useRef<HTMLElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const containerClass = isOpen ? styles.container_open : '';
 	const [selectedFont, setSelectedFont] = useState(
 		defaultArticleState.fontFamilyOption
 	);
@@ -97,10 +96,13 @@ export const ArticleParamsForm = ({
 				}}
 			/>
 			<aside
-				className={styles.container + ' ' + containerClass}
+				className={clsx(
+					styles.container,
+					isOpen ? styles.container_open : null
+				)}
 				ref={wrapperRef}>
-				<form className={clsx(styles.form)} onSubmit={handleFormSubmit}>
-					<h2 className={clsx(styles.form_title)}>задайте параметры</h2>
+				<form className={styles.form} onSubmit={handleFormSubmit}>
+					<h2 className={styles.form_title}>задайте параметры</h2>
 					<Select
 						options={fontFamilyOptions}
 						selected={selectedFont}
@@ -133,7 +135,7 @@ export const ArticleParamsForm = ({
 						title='ширина контента'
 						onChange={setSelectedContentWidth}
 					/>
-					<div className={clsx(styles.bottomContainer)}>
+					<div className={styles.bottomContainer}>
 						<Button
 							title='Сбросить'
 							htmlType='reset'

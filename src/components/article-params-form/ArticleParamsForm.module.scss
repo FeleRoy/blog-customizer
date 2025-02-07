@@ -3,7 +3,9 @@
 	left: 0;
 	width: 616px;
 	height: 100%;
-	overflow: scroll;
+	overflow: hidden auto;
+	background-color: #ffffff;
+	border-right: 1px solid #000000;
 	transform: translate(-616px);
 	transition: transform 0.5s ease;
 }
@@ -23,7 +25,6 @@
 	min-height: 100%;
 	padding: 50px 31px;
 	background-color: #ffffff;
-	border-right: 1px solid #000000;
 }
 
 .bottomContainer {

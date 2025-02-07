@@ -32,6 +32,7 @@ export const App = () => {
 			<ArticleParamsForm
 				onSubmit={handleFormSubmit}
 				onReset={handleFormReset}
+				formState={ArticleState}
 			/>
 			<Article />
 		</main>

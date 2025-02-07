@@ -11,7 +11,6 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	ArticleStateType,
-	defaultArticleState,
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
@@ -19,35 +18,35 @@ import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 interface ArticleParamsFormProps {
 	onSubmit: (FormData: ArticleStateType) => void;
 	onReset: () => void;
+	formState: ArticleStateType;
 }
 
 export const ArticleParamsForm = ({
 	onSubmit,
 	onReset,
+	formState,
 }: ArticleParamsFormProps) => {
 	const wrapperRef = useRef<HTMLElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedFont, setSelectedFont] = useState(
-		defaultArticleState.fontFamilyOption
-	);
+	const [selectedFont, setSelectedFont] = useState(formState.fontFamilyOption);
 	const [selectedFontSize, setSelectedFontSize] = useState(
-		defaultArticleState.fontSizeOption
+		formState.fontSizeOption
 	);
 	const [selectedFontColor, setSelectedFontColor] = useState(
-		defaultArticleState.fontColor
+		formState.fontColor
 	);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-		defaultArticleState.backgroundColor
+		formState.backgroundColor
 	);
 	const [selectedContentWidth, setSelectedContentWidth] = useState(
-		defaultArticleState.contentWidth
+		formState.contentWidth
 	);
 	const selectedReset = () => {
-		setSelectedFont(defaultArticleState.fontFamilyOption);
-		setSelectedFontSize(defaultArticleState.fontSizeOption);
-		setSelectedFontColor(defaultArticleState.fontColor);
-		setSelectedBackgroundColor(defaultArticleState.backgroundColor);
-		setSelectedContentWidth(defaultArticleState.contentWidth);
+		setSelectedFont(formState.fontFamilyOption);
+		setSelectedFontSize(formState.fontSizeOption);
+		setSelectedFontColor(formState.fontColor);
+		setSelectedBackgroundColor(formState.backgroundColor);
+		setSelectedContentWidth(formState.contentWidth);
 	};
 
 	const handleFormReset = () => {
@@ -81,10 +80,7 @@ export const ArticleParamsForm = ({
 				}}
 			/>
 			<aside
-				className={clsx(
-					styles.container,
-					isOpen ? styles.container_open : null
-				)}
+				className={clsx(styles.container, { [styles.container_open]: isOpen })}
 				ref={wrapperRef}>
 				<form className={styles.form} onSubmit={handleFormSubmit}>
 					<h2 className={styles.form_title}>задайте параметры</h2>

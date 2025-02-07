@@ -3,7 +3,7 @@ import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
 import clsx from 'clsx';
 import styles from './ArticleParamsForm.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
 	fontFamilyOptions,
 	fontSizeOptions,
@@ -15,7 +15,7 @@ import {
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
-
+import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 interface ArticleParamsFormProps {
 	onSubmit: (FormData: ArticleStateType) => void;
 	onReset: () => void;
@@ -66,26 +66,11 @@ export const ArticleParamsForm = ({
 		});
 	};
 
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				wrapperRef.current &&
-				!wrapperRef.current.contains(event.target as Node)
-			) {
-				setIsOpen(false);
-			}
-		};
-
-		if (isOpen) {
-			document.addEventListener('mousedown', handleClickOutside);
-		} else {
-			document.removeEventListener('mousedown', handleClickOutside);
-		}
-
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [isOpen]);
+	useOutsideClickClose({
+		isOpen,
+		wrapperRef,
+		onChange: setIsOpen,
+	});
 
 	return (
 		<>

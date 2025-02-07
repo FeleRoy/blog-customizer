@@ -11,52 +11,56 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	ArticleStateType,
+	defaultArticleState,
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 interface ArticleParamsFormProps {
-	onSubmit: (FormData: ArticleStateType) => void;
-	onReset: () => void;
-	formState: ArticleStateType;
+	ArticleformState: ArticleStateType;
+	onChange: (newValue: ArticleStateType) => void;
 }
 
 export const ArticleParamsForm = ({
-	onSubmit,
-	onReset,
-	formState,
+	ArticleformState,
+	onChange,
 }: ArticleParamsFormProps) => {
 	const wrapperRef = useRef<HTMLElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedFont, setSelectedFont] = useState(formState.fontFamilyOption);
+	const [selectedFont, setSelectedFont] = useState(
+		ArticleformState.fontFamilyOption
+	);
 	const [selectedFontSize, setSelectedFontSize] = useState(
-		formState.fontSizeOption
+		ArticleformState.fontSizeOption
 	);
 	const [selectedFontColor, setSelectedFontColor] = useState(
-		formState.fontColor
+		ArticleformState.fontColor
 	);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-		formState.backgroundColor
+		ArticleformState.backgroundColor
 	);
 	const [selectedContentWidth, setSelectedContentWidth] = useState(
-		formState.contentWidth
+		ArticleformState.contentWidth
 	);
-	const selectedReset = () => {
-		setSelectedFont(formState.fontFamilyOption);
-		setSelectedFontSize(formState.fontSizeOption);
-		setSelectedFontColor(formState.fontColor);
-		setSelectedBackgroundColor(formState.backgroundColor);
-		setSelectedContentWidth(formState.contentWidth);
-	};
 
 	const handleFormReset = () => {
-		selectedReset();
-		onReset();
+		setSelectedFont(defaultArticleState.fontFamilyOption);
+		setSelectedFontSize(defaultArticleState.fontSizeOption);
+		setSelectedFontColor(defaultArticleState.fontColor);
+		setSelectedBackgroundColor(defaultArticleState.backgroundColor);
+		setSelectedContentWidth(defaultArticleState.contentWidth);
+		onChange({
+			fontFamilyOption: selectedFont,
+			fontSizeOption: selectedFontSize,
+			fontColor: selectedFontColor,
+			backgroundColor: selectedBackgroundColor,
+			contentWidth: selectedContentWidth,
+		});
 	};
 
 	const handleFormSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		onSubmit({
+		onChange({
 			fontFamilyOption: selectedFont,
 			fontSizeOption: selectedFontSize,
 			fontColor: selectedFontColor,
@@ -82,7 +86,10 @@ export const ArticleParamsForm = ({
 			<aside
 				className={clsx(styles.container, { [styles.container_open]: isOpen })}
 				ref={wrapperRef}>
-				<form className={styles.form} onSubmit={handleFormSubmit}>
+				<form
+					className={styles.form}
+					onSubmit={handleFormSubmit}
+					onReset={handleFormReset}>
 					<h2 className={styles.form_title}>задайте параметры</h2>
 					<Select
 						options={fontFamilyOptions}
@@ -117,12 +124,7 @@ export const ArticleParamsForm = ({
 						onChange={setSelectedContentWidth}
 					/>
 					<div className={styles.bottomContainer}>
-						<Button
-							title='Сбросить'
-							htmlType='reset'
-							type='clear'
-							onClick={handleFormReset}
-						/>
+						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>
 				</form>

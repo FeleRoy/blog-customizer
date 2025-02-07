@@ -10,12 +10,6 @@ import styles from './index.module.scss';
 export const App = () => {
 	const [ArticleState, setArticleState] =
 		useState<ArticleStateType>(defaultArticleState);
-	const handleFormSubmit = (data: ArticleStateType) => {
-		setArticleState(data);
-	};
-	const handleFormReset = () => {
-		setArticleState(defaultArticleState);
-	};
 
 	return (
 		<main
@@ -30,9 +24,8 @@ export const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				onSubmit={handleFormSubmit}
-				onReset={handleFormReset}
-				formState={ArticleState}
+				ArticleformState={ArticleState}
+				onChange={setArticleState}
 			/>
 			<Article />
 		</main>

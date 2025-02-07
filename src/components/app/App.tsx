@@ -8,13 +8,13 @@ import { Article } from '../article';
 import styles from './index.module.scss';
 
 export const App = () => {
-	const [formData, setFormData] =
+	const [ArticleState, setArticleState] =
 		useState<ArticleStateType>(defaultArticleState);
 	const handleFormSubmit = (data: ArticleStateType) => {
-		setFormData(data);
+		setArticleState(data);
 	};
 	const handleFormReset = () => {
-		setFormData(defaultArticleState);
+		setArticleState(defaultArticleState);
 	};
 
 	return (
@@ -22,11 +22,11 @@ export const App = () => {
 			className={styles.main}
 			style={
 				{
-					'--font-family': formData.fontFamilyOption.value,
-					'--font-size': formData.fontSizeOption.value,
-					'--font-color': formData.fontColor.value,
-					'--container-width': formData.contentWidth.value,
-					'--bg-color': formData.backgroundColor.value,
+					'--font-family': ArticleState.fontFamilyOption.value,
+					'--font-size': ArticleState.fontSizeOption.value,
+					'--font-color': ArticleState.fontColor.value,
+					'--container-width': ArticleState.contentWidth.value,
+					'--bg-color': ArticleState.backgroundColor.value,
 				} as CSSProperties
 			}>
 			<ArticleParamsForm

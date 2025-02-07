@@ -8,7 +8,7 @@ import { Article } from '../article';
 import styles from './index.module.scss';
 
 export const App = () => {
-	const [ArticleState, setArticleState] =
+	const [articleState, setArticleState] =
 		useState<ArticleStateType>(defaultArticleState);
 
 	return (
@@ -16,15 +16,15 @@ export const App = () => {
 			className={styles.main}
 			style={
 				{
-					'--font-family': ArticleState.fontFamilyOption.value,
-					'--font-size': ArticleState.fontSizeOption.value,
-					'--font-color': ArticleState.fontColor.value,
-					'--container-width': ArticleState.contentWidth.value,
-					'--bg-color': ArticleState.backgroundColor.value,
+					'--font-family': articleState.fontFamilyOption.value,
+					'--font-size': articleState.fontSizeOption.value,
+					'--font-color': articleState.fontColor.value,
+					'--container-width': articleState.contentWidth.value,
+					'--bg-color': articleState.backgroundColor.value,
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				ArticleformState={ArticleState}
+				articleformState={articleState}
 				onChange={setArticleState}
 			/>
 			<Article />

@@ -4,7 +4,7 @@ import { Select } from 'src/ui/select';
 import { Text } from 'src/ui/text';
 import clsx from 'clsx';
 import styles from './ArticleParamsForm.module.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	fontFamilyOptions,
 	fontSizeOptions,
@@ -16,32 +16,31 @@ import {
 } from 'src/constants/articleProps';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
-import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 interface ArticleParamsFormProps {
-	ArticleformState: ArticleStateType;
+	articleformState: ArticleStateType;
 	onChange: (newValue: ArticleStateType) => void;
 }
 
 export const ArticleParamsForm = ({
-	ArticleformState,
+	articleformState,
 	onChange,
 }: ArticleParamsFormProps) => {
 	const wrapperRef = useRef<HTMLElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedFont, setSelectedFont] = useState(
-		ArticleformState.fontFamilyOption
+		articleformState.fontFamilyOption
 	);
 	const [selectedFontSize, setSelectedFontSize] = useState(
-		ArticleformState.fontSizeOption
+		articleformState.fontSizeOption
 	);
 	const [selectedFontColor, setSelectedFontColor] = useState(
-		ArticleformState.fontColor
+		articleformState.fontColor
 	);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(
-		ArticleformState.backgroundColor
+		articleformState.backgroundColor
 	);
 	const [selectedContentWidth, setSelectedContentWidth] = useState(
-		ArticleformState.contentWidth
+		articleformState.contentWidth
 	);
 
 	const handleFormReset = () => {
@@ -70,11 +69,27 @@ export const ArticleParamsForm = ({
 		});
 	};
 
-	useOutsideClickClose({
-		isOpen,
-		wrapperRef,
-		onChange: setIsOpen,
-	});
+	useEffect(() => {
+		if (!isOpen) return;
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				wrapperRef.current &&
+				!wrapperRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen]);
 
 	return (
 		<>

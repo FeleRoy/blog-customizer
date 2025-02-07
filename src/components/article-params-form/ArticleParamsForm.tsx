@@ -1,6 +1,7 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
+import clsx from 'clsx';
 import styles from './ArticleParamsForm.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -98,8 +99,8 @@ export const ArticleParamsForm = ({
 			<aside
 				className={styles.container + ' ' + containerClass}
 				ref={wrapperRef}>
-				<form className={styles.form} onSubmit={handleFormSubmit}>
-					<h2 className={styles.form_title}>задайте параметры</h2>
+				<form className={clsx(styles.form)} onSubmit={handleFormSubmit}>
+					<h2 className={clsx(styles.form_title)}>задайте параметры</h2>
 					<Select
 						options={fontFamilyOptions}
 						selected={selectedFont}
@@ -132,7 +133,7 @@ export const ArticleParamsForm = ({
 						title='ширина контента'
 						onChange={setSelectedContentWidth}
 					/>
-					<div className={styles.bottomContainer}>
+					<div className={clsx(styles.bottomContainer)}>
 						<Button
 							title='Сбросить'
 							htmlType='reset'
